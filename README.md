@@ -8,3 +8,33 @@ Bem-vindo ao Yu-Gi-Oh! Deck Builder, um aplicativo web simples para construir de
 - **Explorar Cartas:** Pesquisar e descubrir informações sobre diferentes cartas disponíveis.
 - **Salvar/Carregar Deck:** Salvar seus decks em andamento para continuar mais tarde.
 - **Integração com API:** Utilizamos uma API de cartas para obter informações atualizadas.  [Link API](https://ygoprodeck.com/api-guide/)
+
+#  Ambientação e instalação
+
+Instruções - windows
+
+Instalar o python em https://www.python.org/ Instalando pelo site, a ferramenta ja com vem o PIP e o VENV instalados nativamente. podemos sempre verificar a versão atual do PIP com:
+
+pip --version
+
+e atualizar o PIP com:
+
+python.exe -m pip install --upgrade pip
+
+Observação: No Linux, deve-se instalar essas ferramentas
+
+Voltando ao Windows... Para criar o ambiente de desenvolvimento VENV para que não corramos o risco de alterar o python nativo instalado no windows, devemos...
+
+    criar o ambiente de densenvolvimento. Para criar devemos ir (de preferencia) na raiz da pasta onde concentraremos nosso projeto. código:
+
+python -m venv venv
+
+note que o último venv é referente ao nome que damos ao ambiente de desenvolvimento..fica livre a escolha do mesmo porém se adota venv como padrão.
+
+    Ativando o ambiente de densenvolvimento no windows.
+
+venv/scripts/activate
+
+    Ativando o ambiente de densenvolvimento no Linux.
+
+source venv/bin/activate
