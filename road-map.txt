@@ -1,0 +1,39 @@
+    Modelagem de Dados:
+        Definir os modelos para Cartas e Decks no arquivo models.py do aplicativo.
+        Execute python manage.py makemigrations e python manage.py migrate para aplicar as alterações ao banco de dados.
+
+    Administração Django (opcional):
+        Registre os modelos no arquivo admin.py para facilitar a administração durante o desenvolvimento.
+
+    Views e Templates:
+        Crie as views para renderizar as páginas.
+        Crie templates HTML correspondentes.
+
+    URLs:
+        Configure as URLs no arquivo urls.py do aplicativo.
+
+    Integração com API de Cartas:
+        Utilize a biblioteca requests para interagir com a API de cartas.
+        Faça solicitações à API para obter informações sobre as cartas.
+
+    Construa as Páginas Principais:
+        Página inicial, construção de deck, explorar cartas, etc.
+        Integre as informações da API nas páginas.
+
+    Funcionalidades do Deck:
+        Adicionar/remover cartas ao deck.
+        Visualizar e editar o deck.
+        Validar conformidade com as regras do jogo.
+
+    Salvar/Carregar Deck:
+        Adicione funcionalidades para salvar e carregar decks.
+
+    Aprimoramentos Visuais:
+        Integre imagens de cartas.
+        Ajuste o layout e estilos para uma experiência visual agradável.
+        
+    Testes:
+        Implemente testes para garantir que as funcionalidades estejam funcionando corretamente.
+
+    Documentação:
+        Documente seu código, especialmente se você planeja compartilhar o projeto ou trabalhar em equipe.
