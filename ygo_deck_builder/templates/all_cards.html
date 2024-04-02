@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Cards</title>
+    <title>Todas as cartas</title>
 </head>
 <body>
-    <h1>All Cards</h1>
+    <h1>Todas as cartas</h1>
     <ul>
         {% for card_name in card_names %}
             <li><a href="{% url 'card_info' %}?card_name={{ card_name }}">{{ card_name }}</a></li>

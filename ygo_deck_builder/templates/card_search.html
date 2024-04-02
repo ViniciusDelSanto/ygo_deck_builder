@@ -6,12 +6,12 @@
     <title>Card Search</title>
 </head>
 <body>
-    <h1>Search for a Yu-Gi-Oh! card</h1>
+    <h1>Procure por uma carta de Yu-Gi-Oh!</h1>
     <form action="{% url 'card_info' %}" method="GET">
-        <label for="card_name">Enter card name:</label><br>
+        <label for="card_name">Insira o nome da carta:</label><br>
         <input type="text" id="card_name" name="card_name"><br>
-        <button type="submit">Search</button>
+        <button type="submit">Pesquise</button>
     </form>
-    <a href="{% url 'all_cards' %}"><button>All Cards</button></a>
+    <a href="{% url 'all_cards' %}"><button>Todas as cartas</button></a>
 </body>
 </html>
