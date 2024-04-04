@@ -1,0 +1,26 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Decks</title>
+</head>
+<body>
+    <h1>Listagem de Decks</h1>
+    {% if decks %}
+        <ul>
+            {% for deck in decks %}
+                <li>
+                    {{ deck.name }}
+                    <a href="{% url 'edit_deck' deck.id %}">Editar</a>
+                    <a href="{% url 'delete_deck' deck.id %}">Excluir</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum deck encontrado.</p>
+    {% endif %}
+    <a href="{% url 'create_deck' %}">Criar Novo Deck</a>
+</body>
+</html>

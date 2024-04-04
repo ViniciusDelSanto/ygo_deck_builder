@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if deck %}Editar{% else %}Criar Novo{% endif %} Deck</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .left-section, .middle-section, .right-section {
+            width: 30%;
+            border: 1px solid black;
+            padding: 10px;
+        }
+        .card-info {
+            text-align: center;
+        }
+        .card-list {
+            height: 300px;
+            overflow-y: auto;
+        }
+        .card-list-item {
+            cursor: pointer;
+        }
+        .card-list-item:hover {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <h1>{% if deck %}Editar{% else %}Criar Novo{% endif %} Deck</h1>
+    <div class="container">
+        <div class="left-section">
+            <!-- Div para exibir as informações do card selecionado -->
+            <div class="card-info">
+                <h2>Informações do Card</h2>
+                <p><strong>Nome:</strong> <span id="card-name"></span></p>
+                <p><strong>Tipo:</strong> <span id="card-type"></span></p>
+                <p><strong>ATK:</strong> <span id="card-atk"></span></p>
+                <p><strong>DEF:</strong> <span id="card-def"></span></p>
+                <p><strong>Nível:</strong> <span id="card-level"></span></p>
+                <p><strong>Raça:</strong> <span id="card-race"></span></p>
+                <p><strong>Atributo:</strong> <span id="card-attribute"></span></p>
+                <img src="" id="card-image" alt="Card Image" style="max-width: 200px;">
+            </div>
+        </div>
+        <div class="middle-section">
+            <div class="main-deck">
+                <!-- Sub-div para o main deck -->
+                <!-- Implemente aqui a lógica para adicionar cartas ao main deck -->
+            </div>
+            <div class="extra-deck">
+                <!-- Sub-div para o extra deck -->
+                <!-- Implemente aqui a lógica para adicionar cartas ao extra deck -->
+            </div>
+            <div class="side-deck">
+                <!-- Sub-div para o side deck -->
+                <!-- Implemente aqui a lógica para adicionar cartas ao side deck -->
+            </div>
+        </div>
+        <div class="right-section">
+            <!-- Div para listar todos os cards da API com recurso de rolagem -->
+            <h2>Todos os Cards</h2>
+            <div class="card-list">
+                <ul id="card-list">
+                    {% for card_name in card_names %}
+                        <li class="card-list-item" onclick="displayCardInfo('{{ card_name }}')"><a href="#">{{ card_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para exibir as informações do card selecionado na seção esquerda
+        function displayCardInfo(cardName) {
+            console.log(cardName);  // Verifique se os dados do card estão corretos no console do navegador
+            // Implemente a lógica para obter as informações do card a partir do nome (cardName)
+            // e exibi-las na seção esquerda
+        }
+    </script>
+    
+</body>
+</html>
