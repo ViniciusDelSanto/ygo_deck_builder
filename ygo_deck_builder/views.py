@@ -30,11 +30,17 @@ def list_decks(request):
     decks = Deck.objects.all() 
     return render(request, 'list_decks.html', {'decks': decks})
 
+import requests
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Deck
+
 def create_or_edit_deck(request, deck_id=None):
     deck = None
+    card_name = None
+    
     if deck_id:
         deck = get_object_or_404(Deck, id=deck_id)
-    
+
     if request.method == 'POST':
         name = request.POST.get('name')
         if deck:
@@ -44,13 +50,21 @@ def create_or_edit_deck(request, deck_id=None):
             Deck.objects.create(name=name)
         return redirect('list_decks')
     
-    # Obter todos os cards da API para exibir na div da direita
+    if 'card_name' in request.GET:
+        card_name = request.GET.get('card_name')
+        url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
+        params = {'name': card_name}
+        response = requests.get(url, params=params)
+        data = response.json()
+        if 'data' in data:
+            return render(request, 'card_info.html', {'cards_data': data['data'], 'searched_card': card_name})
+    
     url = "https://db.ygoprodeck.com/api/v7/cardinfo.php"
     response = requests.get(url)
     cards_data = response.json()['data']
     card_names = [card['name'] for card in cards_data]
 
-    return render(request, 'create_edit_deck.html', {'deck': deck, 'card_names': card_names})
+    return render(request, 'create_edit_deck.html', {'deck': deck, 'card_names': card_names, 'searched_card': card_name})
 
 
 def delete_deck(request, deck_id):

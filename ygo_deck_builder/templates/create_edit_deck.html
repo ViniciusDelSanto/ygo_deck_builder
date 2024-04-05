@@ -5,27 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if deck %}Editar{% else %}Criar Novo{% endif %} Deck</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
         .container {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            margin: 20px auto;
         }
+
         .left-section, .middle-section, .right-section {
             width: 30%;
             border: 1px solid black;
             padding: 10px;
+            box-sizing: border-box;
         }
+
         .card-info {
             text-align: center;
         }
+
         .card-list {
             height: 300px;
             overflow-y: auto;
         }
+
         .card-list-item {
             cursor: pointer;
         }
+
         .card-list-item:hover {
             background-color: lightgray;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container input[type="text"],
+        .form-container button {
+            margin-top: 10px;
+            padding: 5px;
+            width: 200px;
+            box-sizing: border-box;
+        }
+
+        .deck-section {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -47,17 +78,24 @@
             </div>
         </div>
         <div class="middle-section">
-            <div class="main-deck">
-                <!-- Sub-div para o main deck -->
+            <div class="deck-section">
+                <h2>Main Deck</h2>
                 <!-- Implemente aqui a lógica para adicionar cartas ao main deck -->
             </div>
-            <div class="extra-deck">
-                <!-- Sub-div para o extra deck -->
+            <div class="deck-section">
+                <h2>Extra Deck</h2>
                 <!-- Implemente aqui a lógica para adicionar cartas ao extra deck -->
             </div>
-            <div class="side-deck">
-                <!-- Sub-div para o side deck -->
+            <div class="deck-section">
+                <h2>Side Deck</h2>
                 <!-- Implemente aqui a lógica para adicionar cartas ao side deck -->
+            </div>
+            <div class="form-container">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="text" name="name" placeholder="Nome do Deck">
+                    <button type="submit">Criar</button>
+                </form>
             </div>
         </div>
         <div class="right-section">
@@ -79,6 +117,21 @@
             console.log(cardName);  // Verifique se os dados do card estão corretos no console do navegador
             // Implemente a lógica para obter as informações do card a partir do nome (cardName)
             // e exibi-las na seção esquerda
+            var url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + cardName;
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                var card = data.data[0];
+                document.getElementById("card-name").innerText = card.name;
+                document.getElementById("card-type").innerText = card.type;
+                document.getElementById("card-atk").innerText = card.atk;
+                document.getElementById("card-def").innerText = card.def;
+                document.getElementById("card-level").innerText = card.level;
+                document.getElementById("card-race").innerText = card.race;
+                document.getElementById("card-attribute").innerText = card.attribute;
+                document.getElementById("card-image").src = card.card_images[0].image_url;
+            })
+            .catch(error => console.error('Error fetching card info:', error));
         }
     </script>
     
