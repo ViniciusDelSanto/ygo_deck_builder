@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todas as cartas</title>
+    <title>Card List</title>
 </head>
 <body>
-    <h1>Todas as cartas</h1>
+    <h1>All Cards</h1>
     <ul>
         {% for card_name in card_names %}
             <li><a href="{% url 'card_info' %}?card_name={{ card_name }}">{{ card_name }}</a></li>
         {% endfor %}
     </ul>
 
-<a href="card_info.html">Ir para a página de informações do card</a>
+<a href="card_info.html">Go to card information page</a>
 
 </body>
 </html>

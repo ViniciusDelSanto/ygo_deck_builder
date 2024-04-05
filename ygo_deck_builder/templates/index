@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Decks de Yu-Gi-Oh!</title>
+    <title>Yu-Gi-Oh! Deck List</title>
 </head>
 <body>
-    <h1>Listagem de Decks de Yu-Gi-Oh!</h1>
+    <h1>Yu-Gi-Oh! Deck List</h1>
     <ul>
         <li><a href="#">Deck 1</a></li>
         <li><a href="#">Deck 2</a></li>
@@ -18,7 +18,15 @@
             {% endfor %}
         </ul>
         <li><a href="{% url 'all_cards' %}">All Cards</a></li>
-   
     </ul>
+    
+    <!-- Formulário para adicionar um novo deck -->
+    <h2>Adicionar Novo Deck</h2>
+    <form action="{% url 'add_deck' %}" method="post">
+        {% csrf_token %}
+        <label for="deck_name">Deck Name:</label>
+        <input type="text" id="deck_name" name="deck_name">
+        <button type="submit">Add</button>
+    </form>
 </body>
 </html>

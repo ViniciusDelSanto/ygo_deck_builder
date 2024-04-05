@@ -35,7 +35,7 @@ def all_cards(request):
     return render(request, 'all_cards.html', {'card_names': card_names})
 
 
-def aa(request):
+def index(request):
     url= "https://db.ygoprodeck.com/api/v7/cardinfo.php"
     response = requests.get(url)
     data = response.json()
