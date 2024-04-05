@@ -11,7 +11,14 @@
         <li><a href="#">Deck 1</a></li>
         <li><a href="#">Deck 2</a></li>
         <li><a href="#">Deck 3</a></li>
-        
+
+        <ul>
+            {% for deck in decks %}
+                <li><a href="#">{{ deck.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <li><a href="{% url 'all_cards' %}">All Cards</a></li>
+   
     </ul>
 </body>
 </html>

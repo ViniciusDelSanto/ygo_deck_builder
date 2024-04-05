@@ -34,3 +34,11 @@ def all_cards(request):
     card_names = [card['name'] for card in data['data']]
     return render(request, 'all_cards.html', {'card_names': card_names})
 
+
+def aa(request):
+    url= "https://db.ygoprodeck.com/api/v7/cardinfo.php"
+    response = requests.get(url)
+    data = response.json()
+    card_names = [card['name'] for card in data['data']]
+    return render(request, 'index.html', {'card_names': card_names})
+
