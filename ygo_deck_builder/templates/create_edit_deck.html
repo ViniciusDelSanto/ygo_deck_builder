@@ -57,6 +57,14 @@
 
         .deck-section {
             margin-top: 20px;
+            height: 150px; /* Altura definida para permitir o rolamento */
+            overflow-y: auto; /* Habilita o rolamento */
+            border: 1px solid #ccc; /* Borda para efeito visual */
+            padding: 5px; /* Espaçamento interno */
+        }
+
+        .deck-section h2 {
+            margin-top: 0; /* Remova a margem superior do título */
         }
     </style>
 </head>
@@ -78,17 +86,17 @@
             </div>
         </div>
         <div class="middle-section">
-            <div class="deck-section">
+            <div class="deck-section" id="main-deck" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <h2>Main Deck</h2>
-                <!-- Implemente aqui a lógica para adicionar cartas ao main deck -->
+                <!-- Div para o main deck -->
             </div>
-            <div class="deck-section">
+            <div class="deck-section" id="extra-deck" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <h2>Extra Deck</h2>
-                <!-- Implemente aqui a lógica para adicionar cartas ao extra deck -->
+                <!-- Div para o extra deck -->
             </div>
-            <div class="deck-section">
+            <div class="deck-section" id="side-deck" ondrop="drop(event)" ondragover="allowDrop(event)">
                 <h2>Side Deck</h2>
-                <!-- Implemente aqui a lógica para adicionar cartas ao side deck -->
+                <!-- Div para o side deck -->
             </div>
             <div class="form-container">
                 <form method="post">
@@ -104,7 +112,7 @@
             <div class="card-list">
                 <ul id="card-list">
                     {% for card_name in card_names %}
-                        <li class="card-list-item" onclick="displayCardInfo('{{ card_name }}')"><a href="#">{{ card_name }}</a></li>
+                        <li class="card-list-item" data-card-name="{{ card_name }}" onclick="displayCardInfo('{{ card_name }}')" draggable="true" ondragstart="drag(event)">{{ card_name }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -132,6 +140,28 @@
                 document.getElementById("card-image").src = card.card_images[0].image_url;
             })
             .catch(error => console.error('Error fetching card info:', error));
+        }
+
+        // Função para permitir soltar uma carta na área do deck
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        // Função para soltar uma carta na área do deck
+        function drop(event) {
+            event.preventDefault();
+            var cardName = event.dataTransfer.getData("text");
+            var area = event.target.closest(".deck-section");
+            if (area) {
+                var cardElement = document.createElement('div');
+                cardElement.textContent = cardName;
+                area.appendChild(cardElement);
+            }
+        }
+
+        // Função para arrastar uma carta
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.dataset.cardName);
         }
     </script>
     
