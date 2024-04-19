@@ -42,19 +42,17 @@ def create_or_edit_deck(request, deck_id=None):
         deck = get_object_or_404(Deck, id=deck_id)
 
     if request.method == 'POST':
-        form = DeckForm(request.POST)
+        form = DeckForm(request.POST, instance=deck)
         if form.is_valid():
             name = form.cleaned_data['name']
             main_deck = form.cleaned_data['main_deck']
             extra_deck = form.cleaned_data['extra_deck']
             side_deck = form.cleaned_data['side_deck']
 
-            # Validação do Main Deck
             if main_deck and (len(main_deck) < 40 or len(main_deck) > 60):
                 messages.error(request, 'O Main Deck deve conter entre 40 e 60 cartas.')
                 return redirect('create_or_edit_deck')
 
-            # Verifica se há mais de 3 cartas com o mesmo nome no Main Deck
             if main_deck:
                 main_deck_counts = Counter(main_deck)
                 for card_name, count in main_deck_counts.items():
@@ -62,17 +60,14 @@ def create_or_edit_deck(request, deck_id=None):
                         messages.error(request, f'Só é permitido até 3 cartas com o mesmo nome no Main Deck: {card_name}.')
                         return redirect('create_or_edit_deck')
 
-            # Validação do Extra Deck
             if extra_deck and len(extra_deck) > 15:
                 messages.error(request, 'O Extra Deck deve conter no máximo 15 cartas.')
                 return redirect('create_or_edit_deck')
 
-            # Validação do Side Deck
             if side_deck and len(side_deck) > 15:
                 messages.error(request, 'O Side Deck deve conter no máximo 15 cartas.')
                 return redirect('create_or_edit_deck')
 
-            # Verifica se há monstros proibidos nos decks
             forbidden_monsters = ['Fusion', 'Xyz', 'Synchro', 'Link']
             for monster_type in forbidden_monsters:
                 if main_deck and any(monster_type in card for card in main_deck):
@@ -87,17 +82,13 @@ def create_or_edit_deck(request, deck_id=None):
                     messages.error(request, f'Não são permitidos monstros do tipo {monster_type} no Side Deck.')
                     return redirect('create_or_edit_deck')
 
-            if deck:
-                deck.name = name
-                deck.save()
-            else:
-                Deck.objects.create(name=name)
+            deck = form.save()
+            messages.success(request, 'Deck salvo com sucesso!')
             return redirect('list_decks')
         else:
-            print("Formulário inválido:", form.errors)
             messages.error(request, "Erro no formulário. Por favor, verifique os dados inseridos.")
     else:
-        form = DeckForm()
+        form = DeckForm(instance=deck)
 
     if 'card_name' in request.GET:
         card_name = request.GET.get('card_name')

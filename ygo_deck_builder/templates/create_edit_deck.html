@@ -75,6 +75,7 @@
             <!-- Div para exibir as informações do card selecionado -->
             <div class="card-info">
                 <h2>Informações do Card</h2>
+                <img src="" id="card-image" alt="Card Image" style="max-width: 200px;">
                 <p><strong>Nome:</strong> <span id="card-name"></span></p>
                 <p><strong>Tipo:</strong> <span id="card-type"></span></p>
                 <p><strong>ATK:</strong> <span id="card-atk"></span></p>
@@ -82,7 +83,7 @@
                 <p><strong>Nível:</strong> <span id="card-level"></span></p>
                 <p><strong>Raça:</strong> <span id="card-race"></span></p>
                 <p><strong>Atributo:</strong> <span id="card-attribute"></span></p>
-                <img src="" id="card-image" alt="Card Image" style="max-width: 200px;">
+                <p><strong>Descrição:</strong> <span id="card-desc"></span></p>
             </div>
         </div>
         <div class="middle-section">
@@ -99,10 +100,10 @@
                 <!-- Div para o side deck -->
             </div>
             <div class="form-container">
-                <form method="post">
+                <form method="post" action="{% if deck %}{% url 'edit_deck' deck.id %}{% else %}{% url 'create_or_edit_deck' %}{% endif %}" onsubmit="return validateForm()">
                     {% csrf_token %}
-                    <input type="text" name="name" placeholder="Nome do Deck">
-                    <button type="submit">Criar</button>
+                    <input type="text" id="deck-name" name="name" placeholder="Nome do Deck" value="{% if deck %}{{ deck.name }}{% endif %}">
+                    <button type="submit" name="submit">{% if deck %}Salvar{% else %}Criar{% endif %}</button>
                 </form>
             </div>
         </div>
@@ -136,6 +137,7 @@
                 document.getElementById("card-def").innerText = card.def;
                 document.getElementById("card-level").innerText = card.level;
                 document.getElementById("card-race").innerText = card.race;
+                document.getElementById("card-desc").innerText = card.desc;
                 document.getElementById("card-attribute").innerText = card.attribute;
                 document.getElementById("card-image").src = card.card_images[0].image_url;
             })
@@ -163,7 +165,16 @@
         function drag(event) {
             event.dataTransfer.setData("text", event.target.dataset.cardName);
         }
+
+        // Função para validar o formulário antes de enviar
+        function validateForm() {
+            var deckName = document.getElementById('deck-name').value.trim();
+            if (!deckName) {
+                alert('Por favor, insira um nome para o deck.');
+                return false; // Impede o envio do formulário se o nome do deck estiver vazio
+            }
+            return true; // Permite o envio do formulário se o nome do deck estiver preenchido
+        }
     </script>
-    
 </body>
 </html>
