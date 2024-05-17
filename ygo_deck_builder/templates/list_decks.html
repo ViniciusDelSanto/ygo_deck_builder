@@ -1,26 +1,20 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listagem de Decks</title>
+    <title>Lista de Decks</title>
 </head>
 <body>
-    <h1>Listagem de Decks</h1>
-    {% if decks %}
-        <ul>
-            {% for deck in decks %}
-                <li>
-                    {{ deck.name }}
-                    <a href="{% url 'edit_deck' deck.id %}">Editar</a>
-                    <a href="{% url 'delete_deck' deck.id %}">Excluir</a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Nenhum deck encontrado.</p>
-    {% endif %}
+    <h1>Lista de Decks</h1>
     <a href="{% url 'create_or_edit_deck' %}">Criar Novo Deck</a>
+    <ul>
+        {% for deck in decks %}
+        <li>
+            <a href="{% url 'view_deck' deck.id %}">{{ deck.name }}</a> - 
+            <a href="{% url 'create_or_edit_deck' deck.id %}">Editar</a> - 
+            <a href="{% url 'delete_deck' deck.id %}">Excluir</a>
+        </li>
+        {% endfor %}
+    </ul>
 </body>
-</html>

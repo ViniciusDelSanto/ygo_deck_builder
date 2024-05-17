@@ -1,27 +1,30 @@
+      
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card Info</title>
+    <title>Informações da Carta</title>
+    <style>
+        /* ... seus estilos CSS ... */
+    </style>
 </head>
 <body>
-    <h1>Card Information for "{{ searched_card }}"</h1>
-    {% if cards_data %}
-        {% for card in cards_data %}
-            <p>ID: {{ card.id }}</p>
-            <p>Name: {{ card.name }}</p>
-            <p>Type: {{ card.type }}</p>
-            <p>ATK: {{ card.atk }}</p>
-            <p>DEF: {{ card.def }}</p>
-            <p>Level: {{ card.level }}</p>
-            <p>Race: {{ card.race }}</p>
-            <p>Attribute: {{ card.attribute }}</p>
-            <!-- Adicione outras informações do cartão conforme necessário -->
-            <img width="200px" src="{{ card.card_images.0.image_url }}" alt="{{ card.name }}">
-        {% endfor %}
-    {% else %}
-        <p>No data available for the searched card.</p>
-    {% endif %}
+    <h1>Informações da Carta</h1>
+    {% for card in cards_data %}
+    <div class="card-info">
+        <img src="{{ card.card_images.0.image_url }}" alt="{{ card.name }}" style="max-width: 200px;">
+        <p><strong>Nome:</strong> {{ card.name }}</p>
+        <p><strong>Tipo:</strong> {{ card.type }}</p>
+        <p><strong>ATK:</strong> {{ card.atk|default:"N/A" }}</p>
+        <p><strong>DEF:</strong> {{ card.def|default:"N/A" }}</p>
+        <p><strong>Nível:</strong> {{ card.level|default:"N/A" }}</p>
+        <p><strong>Raça:</strong> {{ card.race }}</p>
+        <p><strong>Atributo:</strong> {{ card.attribute }}</p>
+        <p><strong>Descrição:</strong> {{ card.desc }}</p>
+    </div>
+    {% endfor %}
 </body>
 </html>
+
+    

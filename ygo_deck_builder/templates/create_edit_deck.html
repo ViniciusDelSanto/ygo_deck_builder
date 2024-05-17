@@ -4,177 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if deck %}Editar{% else %}Criar Novo{% endif %} Deck</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
-            margin: 20px auto;
-        }
-
-        .left-section, .middle-section, .right-section {
-            width: 30%;
-            border: 1px solid black;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        .card-info {
-            text-align: center;
-        }
-
-        .card-list {
-            height: 300px;
-            overflow-y: auto;
-        }
-
-        .card-list-item {
-            cursor: pointer;
-        }
-
-        .card-list-item:hover {
-            background-color: lightgray;
-        }
-
-        .form-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .form-container input[type="text"],
-        .form-container button {
-            margin-top: 10px;
-            padding: 5px;
-            width: 200px;
-            box-sizing: border-box;
-        }
-
-        .deck-section {
-            margin-top: 20px;
-            height: 150px; /* Altura definida para permitir o rolamento */
-            overflow-y: auto; /* Habilita o rolamento */
-            border: 1px solid #ccc; /* Borda para efeito visual */
-            padding: 5px; /* Espaçamento interno */
-        }
-
-        .deck-section h2 {
-            margin-top: 0; /* Remova a margem superior do título */
-        }
-    </style>
 </head>
 <body>
     <h1>{% if deck %}Editar{% else %}Criar Novo{% endif %} Deck</h1>
     <div class="container">
-        <div class="left-section">
-            <!-- Div para exibir as informações do card selecionado -->
-            <div class="card-info">
-                <h2>Informações do Card</h2>
-                <img src="" id="card-image" alt="Card Image" style="max-width: 200px;">
-                <p><strong>Nome:</strong> <span id="card-name"></span></p>
-                <p><strong>Tipo:</strong> <span id="card-type"></span></p>
-                <p><strong>ATK:</strong> <span id="card-atk"></span></p>
-                <p><strong>DEF:</strong> <span id="card-def"></span></p>
-                <p><strong>Nível:</strong> <span id="card-level"></span></p>
-                <p><strong>Raça:</strong> <span id="card-race"></span></p>
-                <p><strong>Atributo:</strong> <span id="card-attribute"></span></p>
-                <p><strong>Descrição:</strong> <span id="card-desc"></span></p>
-            </div>
+        <div class="form-container">
+            <form method="post" action="{% if deck %}{% url 'create_or_edit_deck' deck.id %}{% else %}{% url 'create_or_edit_deck' %}{% endif %}">                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">{% if deck %}Salvar{% else %}Criar{% endif %}</button>
+            </form>
         </div>
-        <div class="middle-section">
-            <div class="deck-section" id="main-deck" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <h2>Main Deck</h2>
-                <!-- Div para o main deck -->
-            </div>
-            <div class="deck-section" id="extra-deck" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <h2>Extra Deck</h2>
-                <!-- Div para o extra deck -->
-            </div>
-            <div class="deck-section" id="side-deck" ondrop="drop(event)" ondragover="allowDrop(event)">
-                <h2>Side Deck</h2>
-                <!-- Div para o side deck -->
-            </div>
-            <div class="form-container">
-                <form method="post" action="{% if deck %}{% url 'edit_deck' deck.id %}{% else %}{% url 'create_or_edit_deck' %}{% endif %}" onsubmit="return validateForm()">
-                    {% csrf_token %}
-                    <input type="text" id="deck-name" name="name" placeholder="Nome do Deck" value="{% if deck %}{{ deck.name }}{% endif %}">
-                    <button type="submit" name="submit">{% if deck %}Salvar{% else %}Criar{% endif %}</button>
-                </form>
-            </div>
-        </div>
-        <div class="right-section">
-            <!-- Div para listar todos os cards da API com recurso de rolagem -->
-            <h2>Todos os Cards</h2>
-            <div class="card-list">
-                <ul id="card-list">
-                    {% for card_name in card_names %}
-                        <li class="card-list-item" data-card-name="{{ card_name }}" onclick="displayCardInfo('{{ card_name }}')" draggable="true" ondragstart="drag(event)">{{ card_name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
+        <div class="cards-container">
+            <h2>Cartas disponíveis</h2>
+            <ul>
+                {% for card in cards %}
+                <li>
+                    <label>
+                        <input type="checkbox" name="main_deck" value="{{ card.id }}" {% if card in deck.main_deck.all %}checked{% endif %}>
+                        {{ card.name }} ({{ card.type }})
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h2>Extra Deck</h2>
+            <ul>
+                {% for card in cards %}
+                <li>
+                    <label>
+                        <input type="checkbox" name="extra_deck" value="{{ card.id }}" {% if card in deck.extra_deck.all %}checked{% endif %}>
+                        {{ card.name }} ({{ card.type }})
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <h2>Side Deck</h2>
+            <ul>
+                {% for card in cards %}
+                <li>
+                    <label>
+                        <input type="checkbox" name="side_deck" value="{{ card.id }}" {% if card in deck.side_deck.all %}checked{% endif %}>
+                        {{ card.name }} ({{ card.type }})
+                    </label>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
-
-    <script>
-        // Função para exibir as informações do card selecionado na seção esquerda
-        function displayCardInfo(cardName) {
-            console.log(cardName);  // Verifique se os dados do card estão corretos no console do navegador
-            // Implemente a lógica para obter as informações do card a partir do nome (cardName)
-            // e exibi-las na seção esquerda
-            var url = "https://db.ygoprodeck.com/api/v7/cardinfo.php?name=" + cardName;
-            fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                var card = data.data[0];
-                document.getElementById("card-name").innerText = card.name;
-                document.getElementById("card-type").innerText = card.type;
-                document.getElementById("card-atk").innerText = card.atk;
-                document.getElementById("card-def").innerText = card.def;
-                document.getElementById("card-level").innerText = card.level;
-                document.getElementById("card-race").innerText = card.race;
-                document.getElementById("card-desc").innerText = card.desc;
-                document.getElementById("card-attribute").innerText = card.attribute;
-                document.getElementById("card-image").src = card.card_images[0].image_url;
-            })
-            .catch(error => console.error('Error fetching card info:', error));
-        }
-
-        // Função para permitir soltar uma carta na área do deck
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
-        // Função para soltar uma carta na área do deck
-        function drop(event) {
-            event.preventDefault();
-            var cardName = event.dataTransfer.getData("text");
-            var area = event.target.closest(".deck-section");
-            if (area) {
-                var cardElement = document.createElement('div');
-                cardElement.textContent = cardName;
-                area.appendChild(cardElement);
-            }
-        }
-
-        // Função para arrastar uma carta
-        function drag(event) {
-            event.dataTransfer.setData("text", event.target.dataset.cardName);
-        }
-
-        // Função para validar o formulário antes de enviar
-        function validateForm() {
-            var deckName = document.getElementById('deck-name').value.trim();
-            if (!deckName) {
-                alert('Por favor, insira um nome para o deck.');
-                return false; // Impede o envio do formulário se o nome do deck estiver vazio
-            }
-            return true; // Permite o envio do formulário se o nome do deck estiver preenchido
-        }
-    </script>
 </body>
+
+      
+<script>
+    const cards = document.querySelectorAll('.card');
+    const deckArea = document.getElementById('deck-area'); // Certifique-se de ter um elemento com este ID no seu template
+  
+    cards.forEach(card => {
+      card.addEventListener('dragstart', (event) => {
+        event.dataTransfer.setData('cardId', card.dataset.cardId);
+        event.dataTransfer.setData('cardName', card.dataset.cardName);
+      });
+    });
+  
+    deckArea.addEventListener('dragover', (event) => {
+      event.preventDefault();
+    });
+  
+    deckArea.addEventListener('drop', (event) => {
+      event.preventDefault();
+      const cardId = event.dataTransfer.getData('cardId');
+      const cardName = event.dataTransfer.getData('cardName');
+  
+      // Aqui você adicionaria a lógica para adicionar a carta ao seu deck
+      console.log(`Carta adicionada ao deck: ${cardName} (ID: ${cardId})`); 
+    });
+  </script>
+  
+      
 </html>

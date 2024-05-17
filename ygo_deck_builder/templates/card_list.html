@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Cartas</title>
+</head>
+<body>
+    <h2>Lista de Cartas</h2>
+    <ul id="card-list">
+    {% for card in cards %}
+    <li class="card" draggable="true" data-card-id="{{ card.id }}" data-card-name="{{ card.name }}">
+        <img src="{{ card.card_images.0.image_url }}" alt="{{ card.name }}" width="100">
+        <span>{{ card.name }}</span>
+    </li>
+    {% endfor %}
+    </ul>
+
+</body>
+</html>
