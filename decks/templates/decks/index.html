@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decks</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% load static %} 
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mt-5">Decks</h1>
+        <a href="{% url 'decks:criar_deck' %}" class="btn btn-primary mb-3">Criar Deck</a>
+        <ul class="list-group">
+            {% for deck in decks %}
+                <li class="list-group-item">
+                    <a href="{% url 'decks:editar_deck' deck.id %}">{{ deck.nome }}</a> - 
+                    <a href="{% url 'decks:deletar_deck' deck.id %}" class="text-danger">Deletar</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+
+    

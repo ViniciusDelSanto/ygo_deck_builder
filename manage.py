@@ -3,7 +3,6 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
@@ -17,7 +16,9 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
+    # Chama o comando de população do banco de dados após a execução do Django
+    from app.scripts.populate_db import Command
+    Command().handle()
 
 if __name__ == '__main__':
     main()
-

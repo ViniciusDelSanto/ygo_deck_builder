@@ -1,0 +1,74 @@
+body {
+    background-color: #282c34; /* Cinza chumbo */
+    color: #f92672; /* Neon magenta */
+    font-family: monospace;
+    height: auto; 
+}
+
+.container {
+    background-color: #383e4a; /* Cinza chumbo mais claro */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 90vw; /* Define a largura máxima */
+    max-height: 90vh;
+}
+
+h1, h2, h3 {
+    color: #f92672; /* Neon magenta */
+}
+
+.btn-primary {
+    background-color: #f92672; /* Neon magenta */
+    border: none;
+}
+
+.text-danger {
+    color: #f92672; /* Neon magenta */
+}
+
+.list-group{
+    height: 70vh;
+    overflow: auto;
+}
+
+.list-group-item {
+    background-color: #444b5a; /* Cinza chumbo escuro */
+    color: #f92672; /* Neon magenta */
+}
+
+.card {
+    background-color: #383e4a; /* Cinza chumbo mais claro */
+    color: #f92672; /* Neon magenta */
+}
+
+.card-header {
+    background-color: #282c34; /* Cinza chumbo */
+    color: #f92672; /* Neon magenta */
+}
+
+.carta {
+    cursor: move;
+    display: block; /* Garante que o elemento tenha um espaço definido */
+    padding: 10px; /* Adiciona algum espaçamento interno */
+    text-align: left; /* Alinha o texto para a esquerda */
+    font-size: 16px; /* Define o tamanho da fonte */
+}
+
+#carta-info{
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.carta:hover {
+    background-color: #555e6e; /* Cinza chumbo mais escuro */
+}
+
+#carta-info img {
+    max-width: 60%;
+    height: auto;
+}
+
+.card>.card-header+.list-group, .card>.list-group+.card-footer {
+    border-top: 0;
+    height: 120px;
+}
